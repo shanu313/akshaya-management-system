@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">Edit Bill</h2>
+
+<div class="card shadow p-4">
+
+<form method="post">
+{% csrf_token %}
+
+<div class="mb-3">
+<label class="form-label">Quantity</label>
+<input type="number" name="quantity" value="{{ bill.quantity }}" class="form-control">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Total Amount</label>
+<input type="number" name="total_amount" value="{{ bill.total_amount }}" class="form-control">
+</div>
+
+<button type="submit" class="btn btn-primary">
+Update Bill
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}

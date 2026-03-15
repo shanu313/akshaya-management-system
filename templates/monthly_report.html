@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">Monthly Income Report</h2>
+
+<div class="card shadow p-4">
+    <canvas id="incomeChart" height="100"></canvas>
+</div>
+
+<div class="mt-4">
+    <a href="/dashboard/" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+
+<script>
+    const ctx = document.getElementById('incomeChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ months|safe }},
+            datasets: [{
+                label: 'Monthly Income',
+                data: {{ totals|safe }},
+                backgroundColor: '#2563eb',
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}

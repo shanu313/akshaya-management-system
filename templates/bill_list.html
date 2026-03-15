@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+        <h2 class="page-title mb-1">All Bills</h2>
+        <p class="text-muted mb-0">Manage invoices, search records, and export reports</p>
+    </div>
+
+    <a href="/export-bills/" class="btn btn-success btn-custom">
+        <i class="bi bi-file-earmark-excel me-2"></i>Download Excel
+    </a>
+</div>
+
+<div class="custom-table p-4 mb-4">
+    <form method="get" class="row g-3">
+        <div class="col-lg-4 col-md-6">
+            <label class="form-label fw-semibold">Search Customer</label>
+            <input type="text" name="search" class="form-control" placeholder="Enter customer name">
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <label class="form-label fw-semibold">Start Date</label>
+            <input type="date" name="start_date" class="form-control">
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <label class="form-label fw-semibold">End Date</label>
+            <input type="date" name="end_date" class="form-control">
+        </div>
+
+        <div class="col-lg-2 col-md-6 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary btn-custom w-100">
+                <i class="bi bi-funnel me-2"></i>Filter
+            </button>
+        </div>
+    </form>
+</div>
+
+<div class="custom-table p-3">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Invoice No</th>
+                    <th>Customer</th>
+                    <th>Service</th>
+                    <th>Quantity</th>
+                    <th>Total Amount</th>
+                    <th>Date</th>
+                    <th style="min-width: 220px;">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                  {% for bill in bills %}
+                 <tr>
+
+                 <td>
+                 <span class="fw-semibold text-primary">
+                 {{ bill.invoice_number }}
+                 </span>
+                 </td>
+
+                 <td>{{ bill.customer.name }}</td>
+
+                 <td>{{ bill.items.count }}</td>
+
+                 <td class="fw-semibold">
+                 ₹{{ bill.get_total_amount }}
+                 </td>
+
+                 <td>{{ bill.date }}</td>
+
+                 <td>
+
+                 <a href="/invoice/{{ bill.id }}/" class="btn btn-info btn-sm text-white">
+                 <i class="bi bi-eye"></i>
+                 </a>
+
+                 <a href="/download-invoice/{{ bill.id }}/" class="btn btn-dark btn-sm">
+                 <i class="bi bi-file-earmark-pdf"></i>
+                 </a>
+
+                 </td>
+
+                 </tr>
+                 {% empty %}
+                 <tr>
+                 <td colspan="6" class="text-center py-4 text-muted">
+                 No bills found
+                 </td>
+                 </tr>
+                 {% endfor %}
+                 </tbody>
+
+            
+        </table>
+    </div>
+</div>
+
+<div class="mt-4 d-flex flex-wrap gap-2">
+    <a href="/create-bill/" class="btn btn-success btn-custom">
+        <i class="bi bi-plus-circle me-2"></i>Create New Bill
+    </a>
+
+    <a href="/daily-report/" class="btn btn-primary btn-custom">
+        <i class="bi bi-graph-up-arrow me-2"></i>Daily Report
+    </a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+        <h2 class="page-title mb-1">Add Services to Bill</h2>
+        <p class="text-muted mb-0">Invoice: {{ bill.invoice_number }} | Customer: {{ bill.customer.name }}</p>
+    </div>
+
+    <a href="/invoice/{{ bill.id }}/" class="btn btn-primary btn-custom">
+        <i class="bi bi-eye me-2"></i>View Invoice
+    </a>
+</div>
+
+<div class="row g-4">
+
+    <div class="col-lg-4">
+        <div class="custom-table p-4">
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Service</label>
+                    {{ form.service }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Quantity</label>
+                    {{ form.quantity }}
+                </div>
+
+                <button type="submit" class="btn btn-success btn-custom w-100">
+                    <i class="bi bi-plus-circle me-2"></i>Add Service
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="custom-table p-4">
+            <h5 class="mb-3">Services Added</h5>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Service</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td>{{ item.service.service_name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>₹ {{ item.price }}</td>
+                            <td>₹ {{ item.total_amount }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">No services added yet</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-end mt-3">
+                <h4>Total Amount: ₹ {{ total_amount }}</h4>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

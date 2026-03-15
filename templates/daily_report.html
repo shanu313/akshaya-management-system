@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+        <h2 class="page-title mb-1">Daily Report</h2>
+        <p class="text-muted mb-0">View today's billing summary</p>
+    </div>
+
+    <a href="/dashboard/" class="btn btn-secondary btn-custom">
+        <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+    </a>
+</div>
+
+<div class="row g-4">
+
+    <div class="col-md-6">
+        <div class="dashboard-card">
+            <div class="icon-box icon-orange">
+                <i class="bi bi-receipt-cutoff"></i>
+            </div>
+            <h5>Total Bills Today</h5>
+            <h3>{{ total_bills }}</h3>
+            <div class="stat-subtext">Bills generated today</div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="dashboard-card">
+            <div class="icon-box icon-green">
+                <i class="bi bi-cash-stack"></i>
+            </div>
+            <h5>Total Income Today</h5>
+            <h3>₹ {{ total_income }}</h3>
+            <div class="stat-subtext">Today's earnings</div>
+        </div>
+    </div>
+
+</div>
+
+<div class="mt-4">
+    <a href="/create-bill/" class="btn btn-success btn-custom">
+        <i class="bi bi-plus-circle me-2"></i>Create New Bill
+    </a>
+</div>
+
+{% endblock %}

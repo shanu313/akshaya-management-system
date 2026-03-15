@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        body { font-family: Arial; text-align: center; }
+        .card {
+            display: inline-block;
+            width: 200px;
+            margin: 15px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f2f2f2;
+            box-shadow: 2px 2px 8px gray;
+        }
+        h2 { margin-bottom: 30px; }
+        a { display: block; margin: 10px; }
+    </style>
+</head>
+<body>
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="page-title">Dashboard</h2>
+
+<div class="row g-4">
+
+    <div class="col-xl-3 col-md-6 col-12">
+        <div class="dashboard-card">
+            <div class="icon-box icon-blue">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <h5>Total Customers</h5>
+            <h3>{{ total_customers }}</h3>
+            <div class="stat-subtext">Registered customers</div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 col-12">
+        <div class="dashboard-card">
+            <div class="icon-box icon-green">
+                <i class="bi bi-grid-fill"></i>
+            </div>
+            <h5>Total Services</h5>
+            <h3>{{ total_services }}</h3>
+            <div class="stat-subtext">Available services</div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 col-12">
+        <div class="dashboard-card">
+            <div class="icon-box icon-orange">
+                <i class="bi bi-receipt-cutoff"></i>
+            </div>
+            <h5>Total Bills</h5>
+            <h3>{{ total_bills }}</h3>
+            <div class="stat-subtext">Bills generated</div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 col-12">
+        <div class="dashboard-card">
+            <div class="icon-box icon-purple">
+                <i class="bi bi-cash-stack"></i>
+            </div>
+            <h5>Today's Income</h5>
+            <h3>₹ {{ today_income }}</h3>
+            <div class="stat-subtext">Today’s earnings</div>
+        </div>
+    </div>
+
+</div>
+
+<div class="chart-card">
+    <h4>Monthly Income</h4>
+    <canvas id="incomeChart" height="95"></canvas>
+</div>
+
+<script>
+    const ctx = document.getElementById('incomeChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ months|safe }},
+            datasets: [{
+                label: 'Income',
+                data: {{ totals|safe }},
+                backgroundColor: '#2563eb',
+                borderRadius: 10,
+                maxBarThickness: 70
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: '#e2e8f0'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}  
+
+</body>
+</html>

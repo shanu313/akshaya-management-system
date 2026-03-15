@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+        <h2 class="page-title mb-1">Customer List</h2>
+        <p class="text-muted mb-0">View and manage registered customers</p>
+    </div>
+
+    <a href="/add-customer/" class="btn btn-primary btn-custom">
+        <i class="bi bi-person-plus me-2"></i>Add New Customer
+    </a>
+</div>
+
+<div class="custom-table p-3">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th style="min-width: 160px;">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td class="fw-semibold">{{ customer.name }}</td>
+                    <td>{{ customer.phone }}</td>
+                    <td>{{ customer.address }}</td>
+                    <td>
+                        <a href="/edit-customer/{{ customer.id }}/" class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <a href="/delete-customer/{{ customer.id }}/"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure?')">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center py-4 text-muted">No customers found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
